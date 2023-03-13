@@ -1,0 +1,2 @@
+#!/bin/basih
+cut -f1  /var/log/file.tsv | sort | uniq -c | sort -nr | head -n 11

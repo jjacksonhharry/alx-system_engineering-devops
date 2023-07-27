@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script displays The content of the current directory
+for file in *
+do
+	if [[ ! $file =~ ^\..* ]]
+	then
+		echo ${file#*-}
+	fi
+done

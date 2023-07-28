@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# This script manages manage_my_process
+pidfile="/var/run/my_process.pid"
+
+case "$1" in
+	start)
+		./manage_my_process &
+		echo $! > "$pidfile"
+		echo "manage_my_process started"
+		;;
+	stop)
+		if [ -f "$pidfile" ]; then
+		kill "$(cat "$pidfile")"
+		rm -f "$pidfile"
+		echo "manage_my_process stopped"
+		else
+			echo "manage_my_process not running"
+		fi
+		;;
+	restart)
+		if [ -f "$pidfile" ]; then
+			kill "$(cat "$pidfile")"
+			rm -f "$pidfile"
+		fi
+		./manage_my_process &
+		echo $! > "$pidfile"
+		echo "manage_my_process restarted"
+		;;
+	*)
+		echo "Usage: manage_my_process {start|stop|restart}"
+		;;
+esac

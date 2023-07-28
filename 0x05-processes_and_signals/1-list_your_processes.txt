@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script displays a list of currently running processes
+echo "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND"
+ps -e -o user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,command --forest | awk 'NR > 1 {print $0}'

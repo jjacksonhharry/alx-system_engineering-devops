@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script configures an Ubuntu server with the below requirements
+echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts
+echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts

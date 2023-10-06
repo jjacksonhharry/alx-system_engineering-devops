@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Configure your domain zone so that the subdomain www points to your load-balancer IP (lb-01)
+
+# Function to display DNS information for a specific subdomain
+display_dns_info() {
+    local domain="$1"
+    local subdomain="$2"
+
+    # Use dig to retrieve DNS information for the subdomain
+    local dns_info=$(dig "$subdomain.$domain" | awk '/ANSWER SECTION/ {getline; print}')
+
+    # Extract the record type and destination IP address
+    local record_type=$(echo "$dns_info" | awk '{print $4}')
+    local destination=$(echo "$dns_info" | awk '{print $5}')
+
+    # Display the information
+    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+}
+
+# Main script logic
+if [ $# -eq 1 ]; then
+    # When only the domain parameter is provided, display information for default subdomains
+    default_subdomains=("www" "lb-01" "web-01" "web-02")
+    for subdomain in "${default_subdomains[@]}"; do
+        display_dns_info "$1" "$subdomain"
+    done
+elif [ $# -eq 2 ]; then
+    # When both domain and subdomain parameters are provided, display information for the specified subdomain
+    display_dns_info "$1" "$2"
+else
+    echo "Usage: $0 <domain> [subdomain]"
+    exit 1
+fi
+

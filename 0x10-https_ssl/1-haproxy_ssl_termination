@@ -34,6 +34,7 @@ defaults
 
 frontend harryjackpro.tech
         bind *:443 ssl crt /etc/letsencrypt/live/www.harryjackpro.tech/harryjackpro.tech.pem
+	mode http
         default_backend web_servers
 
 backend web_servers

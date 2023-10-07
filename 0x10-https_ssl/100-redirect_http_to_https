@@ -33,6 +33,16 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
+frontend harryjackpro.tech-http
+    bind *:80
+    mode http
+    option httplog
+    option dontlognull
+    reqadd X-Forwarded-Proto:\ http
+
+    acl is_ssl hdr(X-Forwarded-Proto) https
+    redirect scheme https code 301 if !is_ssl
+
 frontend harryjackpro.tech
         bind *:443 ssl crt /etc/letsencrypt/live/www.harryjackpro.tech/harryjackpro.tech.pem
         default_backend web_servers

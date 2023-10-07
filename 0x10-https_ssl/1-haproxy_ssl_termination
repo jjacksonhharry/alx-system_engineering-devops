@@ -40,4 +40,4 @@ frontend harryjackpro.tech
 backend web_servers
         balance roundrobin
         server 328653-web-01 54.210.96.128
-        server 328653-web-02 35.153.79.81:
+        server 328653-web-02 35.153.79.81:443

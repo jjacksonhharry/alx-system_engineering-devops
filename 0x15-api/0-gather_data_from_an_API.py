@@ -7,26 +7,50 @@ import requests
 import sys
 
 
-if __name__ == '__main__':
-    employeeId = sys.argv[1]
-    baseUrl = "https://jsonplaceholder.typicode.com/users"
-    user_url = f"{base_url}/users/{employeeId}"
-    todo_url = f"{base_url}/todos?userId={employeeId}"
+def get_employee_todo_progress(employee_id):
+    base_url = "https://jsonplaceholder.typicode.com"
+    user_url = f"{base_url}/users/{employee_id}"
+    todo_url = f"{base_url}/todos?userId={employee_id}"
 
-    response = requests.get(url)
-    employeeName = response.json().get('name')
+    try:
+        # Fetch employee data
+        user_response = requests.get(user_url)
+        user_data = user_response.json()
+        employee_name = user_data['name']
 
-    response = requests.get(todoUrl)
-    tasks = response.json()
-    done = 0
-    done_tasks = []
+        # Fetch TODO list data
+        todo_response = requests.get(todo_url)
+        todo_data = todo_response.json()
 
-    for task in tasks:
-        if task.get('completed'):
-            done_tasks.append(task)
-            done += 1
-    print("Employee {} is done with tasks({}/{}):"
-          .format(employeeName, done, len(tasks)))
+        # Calculate progress
+        total_tasks = len(todo_data)
+        completed_tasks = sum(1 for task in todo_data if task['completed'])
 
-    for task in done_tasks:
-        print("\t {}".format(task.get('title')))
+        # Display progress information
+        p_m = f"Employee {employee_name} is done with tasks
+        ({completed_tasks}/{total_tasks}): "
+        print(p_m)
+        for task in todo_data:
+            if task['completed']:
+                print(f"\t{task['title']}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+    except KeyError:
+        print(f"Error: Employee with ID {employee_id} not found.")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python3 gather_data_from_an_API.py <employee_id>")
+        sys.exit(1)
+
+    employee_id = sys.argv[1]
+
+    if not employee_id.isdigit():
+        print("Employee ID must be an integer.")
+        sys.exit(1)
+
+    get_employee_todo_progress(int(employee_id))

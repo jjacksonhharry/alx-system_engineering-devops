@@ -11,10 +11,10 @@ import sys
 if __name__ == "__main__":
     emlpoyee_Id = sys.argv[1]
     baseUrl = "https://jsonplaceholder.typicode.com/users"
-    url = baseUrl + "/" + employee_Id
+    url = baseUrl + "/" + employeeId
 
     response = requests.get(url)
-    employee_Name = response.json().get('name')
+    employeeName = response.json().get('name')
 
     todoUrl = url + "/todos"
     response = requests.get(todoUrl)
@@ -28,7 +28,7 @@ if __name__ == "__main__":
             done += 1
 
     print("Employee {} is done with tasks({}/{}):"
-          .format(employee_Name, done, len(tasks)))
+          .format(employeeName, done, len(tasks)))
 
     for task in done_tasks:
         print("\t {}".format(task.get('title')))

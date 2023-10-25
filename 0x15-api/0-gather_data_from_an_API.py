@@ -9,7 +9,7 @@ import sys
 
 
 if __name__ == "__main__":
-    emlpoyeeId = sys.argv[1]
+    employeeId = sys.argv[1]
     baseUrl = "https://jsonplaceholder.typicode.com/users"
     url = baseUrl + "/" + employeeId
 

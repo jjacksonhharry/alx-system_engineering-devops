@@ -10,7 +10,7 @@ import sys
 
 if __name__ == "__main__":
     emlpoyee_Id = sys.argv[1]
-    base_url = "https://jsonplaceholder.typicode.com"
+    baseUrl = "https://jsonplaceholder.typicode.com/users"
     url = baseUrl + "/" + employee_Id
 
     response = requests.get(url)

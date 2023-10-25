@@ -6,7 +6,7 @@ returns information about his/her TODO list progress and exports it to CSV.
 
 import requests
 import sys
-import csv
+
 
 if __name__ == "__main":
     employeeId = sys.argv[1]

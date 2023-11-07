@@ -14,14 +14,29 @@ def top_ten(subreddit):
         print("None")
 
     headers = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
-    params = {'limit': 10}
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    response = requests.get(url, headers=headers)
 
-    response = get(url, headers=user_agent, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        children = data.get("data", {}).get("children", [])
 
-    if response.status_code == 200 and
-    response.json().get('kind') == 'Listing':
-        for post in response.json().get('data').get('children'):
-            print(post.get('data').get('title'))
+        if children:
+            for post in children:
+                post_data = post.get("data")
+                if post_data:
+                    print(post_data.get("title"))
+        else:
+            print("No posts found in the subreddit.")
     else:
-        print(None)
+        print("None")
+
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Please pass an argument for the subreddit to search.")
+    else:
+        subreddit = sys.argv[1]
+        top_ten(subreddit)

@@ -11,9 +11,10 @@ def top_ten(subreddit):
     Prints the titles of the first 10 hot posts for a given subreddit.
     """
     headers = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
-    response = requests.get(
-            'https://www.reddit.com/r/{}/hot.json?limit=10'.format(subreddit),
-            headers=headers)
+    params = {'limit': 10}
+    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
+
+    response = get(url, headers=user_agent, params=params)
 
     if response.status_code == 200 and
     response.json().get('kind') == 'Listing':

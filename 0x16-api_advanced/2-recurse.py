@@ -14,26 +14,32 @@ def recurse(subreddit, hot_list=None, after=None):
     if hot_list is None:
         hot_list = []
 
-    url = f
-    "https://www.reddit.com/r/{subreddit}/hot.json?limit=100&after={after}"
-    headers = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
+    # Set a custom User-Agent header
+    headers = {"User-Agent": "YourBot/1.0 (by YourUsername)"}
 
-    try:
-        response = requests.get(url, headers=headers)
+    # Build the URL for the subreddit's hot posts with pagination
+    url =
+    f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100&after={after}"
+
+    # Make a GET request to the Reddit API
+    response = requests.get(url, headers=headers)
+
+    # Check the response status code
+    if response.status_code == 200:
         data = response.json()
+        children = data.get("data", {}).get("children", [])
 
-        if response.status_code == 200:
-            for post in data["data"]["children"]:
-                hot_list.append(post["data"]["title"])
+        # Iterate through the posts and add their titles to the hot_list
+        for post in children:
+            post_data = post.get("data")
+            if post_data and "title" in post_data:
+                hot_list.append(post_data["title"])
 
-            # Check if there are more posts to fetch
-            if data["data"]["after"]:
-                return recurse(subreddit, hot_list, data["data"]["after"])
-            else:
-                return hot_list
+        if data["data"]["after"]:
+            return recurse(subreddit, hot_list, data["data"]["after"])
         else:
-            return None
-    except Exception as e:
+            return hot_list
+    else:
         return None
 
 

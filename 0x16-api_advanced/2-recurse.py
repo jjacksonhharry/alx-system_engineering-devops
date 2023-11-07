@@ -11,10 +11,13 @@ def recurse(subreddit, hot_list=None, after=None):
     queries the Reddit API and returns a list containing
     the titles of all hot articles
     """
-    global after
-    headers = {'User-Agent': 'api_advanced-project'}
+    if after is None and len(hot_list) > 0:
+        return hot_list
+    # Recursive case: fetch the next page and append the titles to the list
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    params = {"limit": 100, "after": after}
+    headers =
+    {"User-Agent": "python3:holberton.task:v1.0 (by /u/wintermancer)"}
+    params = {"after": after}
     response = requests.get(url,
                             headers=headers,
                             params=params,

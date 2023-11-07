@@ -16,7 +16,8 @@ def recurse(subreddit, hot_list=None, after=None):
         return hot_list
     # Recursive case: fetch the next page and append the titles to the list
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {'User-Agent': 'api_advanced-project'}
+    headers =
+    {"User-Agent": "python3:holberton.task:v1.0 (by /u/wintermancer)"}
     params = {"limit": 100, "after": after}
     response = requests.get(url,
                             headers=headers,

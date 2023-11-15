@@ -1,0 +1,22 @@
+server {
+    listen 80 default server;
+    listen {::}:80 default server;
+
+    #IP address
+    server_name 54.210.96.128
+
+    #HTTP response
+    add_header X-Served-By 328653-web-01
+
+    # server AirBnB clone v2
+    location /airbnb-onepage/ {
+        proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
+    }
+
+    # Error page configuration
+    error_page 404 /404.html;
+    location = /404.html {
+        root /var/www/html;
+        internal
+    }
+}

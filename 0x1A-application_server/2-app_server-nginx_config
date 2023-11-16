@@ -1,9 +1,6 @@
 server {
-    listen 80 default server;
-    listen {::}:80 default server;
-
-    #IP address
-    server_name 54.210.96.128
+    listen 80;
+    server_name 54.210.96.128;
 
     #HTTP response
     add_header X-Served-By 328653-web-01
